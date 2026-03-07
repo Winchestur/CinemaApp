@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using CinemaApp.Data;
 namespace CinemaApp.Web
 {
     using CinemaApp.Data;
@@ -17,14 +20,8 @@ namespace CinemaApp.Web
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 3;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                 ConfigureIdentityOptions(builder.Configuration, options);
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -55,6 +52,25 @@ namespace CinemaApp.Web
             app.MapRazorPages();
 
             app.Run();
+
+            
+        }
+
+        private static void ConfigureIdentityOptions(ConfigurationManager configuration, IdentityOptions options)
+        {
+            options.SignIn.RequireConfirmedAccount = 
+                configuration.GetValue<bool>("Identity:RequireConfirmedAccount");
+
+            options.Password.RequireDigit = configuration.GetValue<bool>("Identity:RequireDigit");
+
+            options.Password.RequiredLength = configuration.GetValue<int>("Identity:RequireLength");
+
+            options.Password.RequireUppercase = configuration.GetValue<bool>("Identity:RequireUppercase");
+
+            options.Password.RequireNonAlphanumeric = 
+                configuration.GetValue<bool>("Identity:RequireNonAlphanumeric");
+
+            options.Password.RequireLowercase = configuration.GetValue<bool>("Identity:RequireLowercase");
         }
     }
 }
