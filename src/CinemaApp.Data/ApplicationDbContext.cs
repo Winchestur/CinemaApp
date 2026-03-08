@@ -5,7 +5,7 @@
     using CinemaApp.Data.Models;
     public class ApplicationDbContext : IdentityDbContext
     {
-        DbSet<Movie> Movies { get; set; }
+        public DbSet<Movie> Movies { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
