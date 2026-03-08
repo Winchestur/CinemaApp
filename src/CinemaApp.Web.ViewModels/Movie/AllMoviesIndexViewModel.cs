@@ -24,8 +24,7 @@ namespace CinemaApp.Web.ViewModels.Movie
         public string Director { get; set; } = null!;
 
         [Required]
-        [StringLength(DurationMaxValue, MinimumLength = DurationMinValue)]
-        public string Duration { get; set; } = null!;
+        public int Duration { get; set; }
 
         [Required]
         [StringLength(UrlMaxLength, MinimumLength = UrlMinLength)]

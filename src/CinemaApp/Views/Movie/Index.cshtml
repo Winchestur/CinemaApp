@@ -31,6 +31,13 @@
                     </p>
                     <p class="text-muted mb-1" style="font-size: 0.85rem;">
                         <strong>Released:</strong> @movie.ReleaseDate
+                    </p><p class="text-muted mb-1" style="font-size: 0.85rem;">
+                        <strong>Duration:</strong> 
+                        @{
+                            var hours = movie.Duration / 60;
+                            var minutes = movie.Duration % 60;
+                            @($"{hours}h-{minutes}m");
+                         }
                     </p>
                 </div>
 

@@ -2,29 +2,24 @@
 using Microsoft.AspNetCore.Mvc;
 using CinemaApp.Web.ViewModels.Movie;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using CinemaApp.Services.Core.Contracts;
+using CinemaApp.Services.Core;
 
 namespace CinemaApp.Web.Controllers
 {
-    public class MovieController : Controller
+    public class MovieController : BaseController
     {
-        private readonly ApplicationDbContext dbContext;
-        public MovieController(ApplicationDbContext dbContext)
+        private readonly IMovieService movieService;
+        public MovieController(IMovieService movieService)
         {
-            this.dbContext = dbContext;
+            this.movieService = movieService;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            ICollection<AllMoviesIndexViewModel> movies = await dbContext.Movies.Select(m => new AllMoviesIndexViewModel
-            {
-                Id = m.Id.ToString(),
-                Title = m.Title,
-                Genre = m.Genre,
-                ReleaseDate = m.ReleaseDate.ToString("dd/MM/yyyy"),
-                Director = m.Director,
-                ImageUrl = m.ImageUrl
-            }).ToListAsync();
-            
-            return View(movies);
+            return View();
         }
     }
 }
