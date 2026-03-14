@@ -46,6 +46,36 @@ namespace CinemaApp.Services.Core
 
         }
 
+        public async Task EditMovieAsync(Guid id, MovieFormViewModel model)
+        {
+            Movie? movie = await movieRepository.GetMovieByIdAsync(id);
+
+            if (movie == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            movie.Title = model.Title;
+            movie.Genre = model.Genre;
+            movie.ReleaseDate = DateTime.ParseExact(model.ReleaseDate, ReleaseDateFormat, CultureInfo.InvariantCulture);
+            movie.Duration = model.Duration;
+            movie.Director = model.Director;
+            movie.Description = model.Description;
+            movie.ImageUrl = model.ImageUrl;
+
+            bool successEdit = await movieRepository.EditMovieAsync(movie);
+            if (!successEdit)
+            {
+                throw new DatabaseEntityCreatePersistFailure();
+            }
+
+        }
+
+        public async Task<bool?> ExistsByIdAsync(Guid id)
+        {
+            return await movieRepository.ExistsByIdAsync(id);
+        }
+
         public async Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync()
         {
             IEnumerable<AllMoviesIndexViewModel> Movies = await movieRepository
@@ -87,6 +117,33 @@ namespace CinemaApp.Services.Core
                 Description = movie.Description,
                 ImageUrl = movie.ImageUrl ?? DefaultImageUrl // default image url if the movie doesn't have one
             };
+        }
+
+        public async Task<MovieFormViewModel> GetMovieForEditByIdAsync(Guid id)
+        {
+            Movie? movie = await movieRepository.GetMovieByIdAsync(id);
+
+            if (movie == null)
+            {
+                return null;
+            }
+
+            return new MovieFormViewModel()
+            {
+
+                Title = movie.Title,
+                Genre = movie.Genre,
+                ReleaseDate = movie.ReleaseDate.ToString(ReleaseDateFormat, CultureInfo.InvariantCulture),
+                Director = movie.Director,
+                Duration = movie.Duration,
+                Description = movie.Description,
+                ImageUrl = movie.ImageUrl ?? DefaultImageUrl // default image url if the movie doesn't have one
+            };
+        }
+
+        Task<bool> IMovieService.ExistsByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,6 +11,7 @@ using static CinemaApp.GCommon.OutPutMessages;
 namespace CinemaApp.Web.Controllers
 {
     [Authorize]
+    [AllowAnonymous]
     public class MovieController : BaseController
     {
         private readonly IMovieService movieService;
@@ -21,7 +22,7 @@ namespace CinemaApp.Web.Controllers
             this.logger = logger;
         }
 
-        [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             IEnumerable<AllMoviesIndexViewModel> movies =
@@ -30,7 +31,6 @@ namespace CinemaApp.Web.Controllers
             return View(movies);
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult Create()
         {
@@ -66,17 +66,59 @@ namespace CinemaApp.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
             MovieDetailsViewModel? model = await movieService.GetMovieDetailsByIdAsync(id);
-                
-                if (model == null)
-                {
-                    return NotFound();
-                }
+
+            if (model == null)
+            {
+                return NotFound();
+            }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            MovieFormViewModel? model = await movieService.GetMovieForEditByIdAsync(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit([FromRoute] Guid id, MovieFormViewModel model)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await movieService.EditMovieAsync(id, model);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, CreateMovieFailureMessage);
+                ModelState.AddModelError(string.Empty, CreateMovieFailureMessage);
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Details), new {id});
         }
     }
 }
