@@ -13,13 +13,13 @@ namespace CinemaApp.Data.Models
 
         [Comment("Movie Title")]
         [Required(ErrorMessage = "Title is required.")]
-        [MaxLength(MovieTitleMaxLength, 
+        [MaxLength(TitleMaxLength, 
             ErrorMessage = "Title cannot exceed {1} characters.")]
         public string Title { get; set; } = null!;
 
         [Comment("Movie Genre")]
         [Required(ErrorMessage = "Genre is required.")]
-        [MaxLength(MovieGenreMaxLength, 
+        [MaxLength(GenreMaxLength, 
             ErrorMessage = "Genre cannot exceed {1} characters.")]
         public string Genre { get; set; } = null!;
 
@@ -29,24 +29,24 @@ namespace CinemaApp.Data.Models
 
         [Comment("Movie Director")]
         [Required(ErrorMessage = "Director is required.")]
-        [MaxLength(MovieDirectorMaxLength, 
+        [MaxLength(DirectorNameMaxLength, 
             ErrorMessage = "Director cannot exceed {1} characters.")]
         public string Director { get; set; } = null!;
 
         [Comment("Movie Duration in minutes")]
-        [Range(DurationMinValue, DurationMaxValue, 
+        [Range(DurationMax, DurationMin, 
             ErrorMessage = "Duration must be between {1} and {2} minutes.")]
         public int Duration { get; set; }
 
         [Comment("Movie Description")]
         [Required(ErrorMessage = "Description is required.")]
-        [MaxLength(MovieDescriptionMaxLength, 
+        [MaxLength(DescriptionMaxLength, 
             ErrorMessage = "Description cannot exceed {1} characters.")]
         public string Description { get; set; } = null!;
 
         [Comment("Movie Image URL")]
         [Required]
-        [StringLength(UrlMaxLength, ErrorMessage = "UrlImages cannot exceed {1} characters.")]
+        [StringLength(ImageUrlMaxLength, ErrorMessage = "UrlImages cannot exceed {1} characters.")]
         public string? ImageUrl { get; set; }
 
         public bool IsDeleted { get; set; } = false;

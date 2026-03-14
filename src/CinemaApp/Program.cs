@@ -8,6 +8,9 @@ namespace CinemaApp.Web
     using Microsoft.EntityFrameworkCore;
     using CinemaApp.Services.Core;
     using CinemaApp.Services.Core.Contracts;
+    using CinemaApp.Data.Repository;
+    using CinemaApp.Data.Repository.Contract;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -19,6 +22,8 @@ namespace CinemaApp.Web
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 
             builder.Services.AddScoped<IMovieService, MovieService>();
 

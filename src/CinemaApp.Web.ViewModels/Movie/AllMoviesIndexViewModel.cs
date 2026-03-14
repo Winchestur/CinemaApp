@@ -9,25 +9,25 @@ namespace CinemaApp.Web.ViewModels.Movie
         public string Id { get; set; } = null!;
 
         [Required]
-        [StringLength(MovieTitleMaxLength, MinimumLength = MovieTitleMinLength)]
+        [StringLength(TitleMaxLength, MinimumLength = TitleMinLength)]
         public string Title { get; set; } = null!;
 
         [Required]
-        [StringLength(MovieGenreMaxLength, MinimumLength = MovieGenreMinLength)]
+        [StringLength(GenreMaxLength, MinimumLength = GenreMinLength)]
         public string Genre { get; set; } = null!;
 
         [Required]
         public string ReleaseDate { get; set; } = null!;
 
         [Required]
-        [StringLength(MovieDirectorMaxLength, MinimumLength = MovieDirectorMinLength)]
+        [StringLength(DirectorNameMaxLength, MinimumLength = DirectorNameMinLength)]
         public string Director { get; set; } = null!;
 
         [Required]
         public int Duration { get; set; }
 
         [Required]
-        [StringLength(UrlMaxLength, MinimumLength = UrlMinLength)]
+        [StringLength(ImageUrlMaxLength)]
         public string? ImageUrl { get; set; }
     }
 }

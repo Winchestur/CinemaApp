@@ -8,7 +8,10 @@ namespace CinemaApp.GCommon
 {
     public class ApplicationConstants
     {
-        public const string DefaultDateTimeFormat = "dd/MM/yyyy";
+        public const string ReleaseDateFormat = "yyyy-MM-dd";
+
+        // Default ulr for movies that don't have one
+
         public const string DefaultImageUrl = "~/images/DefaultImage.png";
     }
 }

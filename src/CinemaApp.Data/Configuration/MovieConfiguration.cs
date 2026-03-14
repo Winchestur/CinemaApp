@@ -12,19 +12,19 @@ namespace CinemaApp.Data.Configuration
 
             builder.Property(m => m.Title)
                 .IsRequired()
-                .HasMaxLength(MovieTitleMaxLength);
+                .HasMaxLength(TitleMaxLength);
 
             builder.Property(m => m.Genre)
                 .IsRequired()
-                .HasMaxLength(MovieGenreMaxLength);
+                .HasMaxLength(GenreMaxLength);
 
             builder.Property(m => m.Director)
                 .IsRequired()
-                .HasMaxLength(MovieDirectorMaxLength);
+                .HasMaxLength(DirectorNameMaxLength);
 
             builder.Property(m => m.Description)
                 .IsRequired()
-                .HasMaxLength(MovieDescriptionMaxLength);
+                .HasMaxLength(DescriptionMaxLength);
 
             builder.Property(m => m.Duration)
                 .IsRequired()
@@ -32,7 +32,7 @@ namespace CinemaApp.Data.Configuration
 
             builder.Property(m => m.ImageUrl)
                 .IsRequired()
-                .HasMaxLength(UrlMaxLength);
+                .HasMaxLength(ImageUrlMaxLength);
 
             builder.HasData(SeedMovies());
         }
