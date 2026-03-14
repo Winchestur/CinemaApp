@@ -11,5 +11,6 @@ namespace CinemaApp.Services.Core.Contracts
     {
         Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync();
         Task CreateMovieAsync(MovieFormViewModel model);
+        Task<MovieDetailsViewModel> GetMovieDetailsByIdAsync(Guid id);
     }
 }

@@ -66,5 +66,27 @@ namespace CinemaApp.Services.Core
 
             return Movies;
         }
+
+        public async Task<MovieDetailsViewModel> GetMovieDetailsByIdAsync(Guid id)
+        {
+            Movie? movie = await movieRepository.GetMovieByIdAsync(id);
+
+            if (movie == null)
+            {
+                return null;
+            }
+
+            return new MovieDetailsViewModel()
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Genre = movie.Genre,
+                ReleaseDate = movie.ReleaseDate.ToString(ReleaseDateFormat, CultureInfo.InvariantCulture),
+                Director = movie.Director,
+                Duration = movie.Duration,
+                Description = movie.Description,
+                ImageUrl = movie.ImageUrl ?? DefaultImageUrl // default image url if the movie doesn't have one
+            };
+        }
     }
 }
