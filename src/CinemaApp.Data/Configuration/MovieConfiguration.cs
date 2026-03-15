@@ -8,6 +8,8 @@ namespace CinemaApp.Data.Configuration
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Movie> builder)
         {
+            builder.HasQueryFilter(m => m.IsDeleted == false);
+
             builder.HasKey(m => m.Id);
 
             builder.Property(m => m.Title)

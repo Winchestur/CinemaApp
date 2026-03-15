@@ -83,5 +83,20 @@ namespace CinemaApp.Data.Repository
             int result = await SaveChangesAsync();
             return result == 1;
         }
+
+        public async Task<bool> SoftDeleteMovieAsync(Movie movie)
+        {
+            movie.IsDeleted = true;
+            dbContext.Movies.Remove(movie);
+            int resultCount = await SaveChangesAsync();
+            return resultCount == 1;
+        }
+
+        public async Task<bool> HardDeleteMovieAsync(Movie movie)
+        {
+            dbContext.Movies.Remove(movie);
+            int resultCount = await SaveChangesAsync();
+            return resultCount == 1;
+        }
     }
 }

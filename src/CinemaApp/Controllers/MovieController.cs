@@ -118,7 +118,47 @@ namespace CinemaApp.Web.Controllers
                 return View(model);
             }
 
-            return RedirectToAction(nameof(Details), new {id});
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            MovieDetailsViewModel movieDetailsVm = await movieService.GetMovieDetailsByIdAsync(id);
+
+            if (movieDetailsVm == null)
+            {
+                return NotFound();
+            }
+
+            return View(movieDetailsVm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromRoute] Guid id, MovieDetailsViewModel deleteDetails)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await movieService.SoftDeleteMovieAsyAsync(id);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound();
+            }
+            catch (DatabaseEntityCreatePersistFailure ex)
+            {
+                logger.LogError(ex, CreateMovieFailureMessage);
+                ModelState.AddModelError(string.Empty, CreateMovieFailureMessage);
+                return View(deleteDetails);
+            }
+
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

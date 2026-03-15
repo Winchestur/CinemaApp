@@ -141,9 +141,34 @@ namespace CinemaApp.Services.Core
             };
         }
 
-        Task<bool> IMovieService.ExistsByIdAsync(Guid id)
+        public async Task HardDeleteMovieAsync(Guid id)
         {
-            throw new NotImplementedException();
+            Movie? movie = await movieRepository.GetMovieByIdAsync(id);
+            if (movie == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            bool successSoftDelete = await movieRepository.HardDeleteMovieAsync(movie);
+            if (!successSoftDelete)
+            {
+                throw new DatabaseEntityCreatePersistFailure();
+            }
+        }
+
+        public async Task SoftDeleteMovieAsyAsync(Guid id)
+        {
+            Movie? movie = await movieRepository.GetMovieByIdAsync(id);
+            if (movie == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            bool successSoftDelete = await movieRepository.SoftDeleteMovieAsync(movie);
+            if (!successSoftDelete)
+            {
+                throw new DatabaseEntityCreatePersistFailure();
+            }
         }
     }
 }
