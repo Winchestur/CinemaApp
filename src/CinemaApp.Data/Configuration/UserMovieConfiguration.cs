@@ -1,4 +1,5 @@
 ﻿using CinemaApp.Data.Models;
+using CinemaApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,9 +17,10 @@ namespace CinemaApp.Data.Configuration
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(um => um.Movie)
-                .WithMany()
+                .WithMany(m => m.UserMovies)
                 .HasForeignKey(um => um.MovieId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
         }
     }
 }

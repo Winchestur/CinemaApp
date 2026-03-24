@@ -10,6 +10,7 @@ namespace CinemaApp.Web
     using CinemaApp.Services.Core.Contracts;
     using CinemaApp.Data.Repository;
     using CinemaApp.Data.Repository.Contract;
+    using CinemaApp.Data.Repository.Contracts;
 
     public class Program
     {
@@ -24,8 +25,10 @@ namespace CinemaApp.Web
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+            builder.Services.AddScoped<IWatchlistRepository, WatchlistRepository>();
 
             builder.Services.AddScoped<IMovieService, MovieService>();
+            builder.Services.AddScoped<IWatchlistService, WatchlistService>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
